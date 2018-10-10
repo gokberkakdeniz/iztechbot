@@ -1,0 +1,6 @@
+help - open help menu
+menu - show food menu
+settings - open setting menu
+subscribe - receive daily food menu message
+unsubscribe - don't receive daily food menu message
+lang - change language
