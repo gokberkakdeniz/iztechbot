@@ -1,4 +1,5 @@
-![bot link](https://img.shields.io/badge/style-iztechbot-blue.svg?longCache=true&style=for-the-badge&label=Telegram&logo=telegram&link=https://t.me/iztechbot)
+[![bot link](https://img.shields.io/badge/style-iztechbot-blue.svg?longCache=true&style=for-the-badge&label=Telegram&logo=telegram&link=https://t.me/iztechbot)](https://t.me/iztechbot)
+
 <center>
   <h1>
     <img src="https://raw.githubusercontent.com/iztech/logo/master/export/iztech_logo%400%2C1x.png">
