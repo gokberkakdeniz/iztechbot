@@ -1,0 +1,5 @@
+start.sh
+iztechbot.json
+log
+__pycache__/
+test.py

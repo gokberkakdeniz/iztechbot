@@ -2,14 +2,17 @@
 # -*- coding: utf-8 -*-
 
 from functools import wraps
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
-from telegram import ChatAction, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
+from telegram.utils.helpers import escape_markdown
+from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, InlineQueryHandler
+from telegram import ChatAction, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, InlineQueryResultArticle, ParseMode, InputTextMessageContent
 from strings import _
 from time import sleep, gmtime, strftime
 from os import environ
 import pymongo
 import re
 import lib
+from uuid import uuid4
+import logging
 
 def button(bot, update):
     query = update.callback_query
@@ -79,7 +82,7 @@ def settings(bot, update):
 
 def start(bot, update):
     if users.count_documents({'chat_id': update.message.chat_id}) == 0:
-        users.insert_one({'chat_id': update.message.chat_id, 'lang': 'en', 'vegetarian': 0, 'subscribe': 0})
+        users.insert_one({'chat_id': update.message.chat_id, 'lang': 'tr', 'vegetarian': 0, 'subscribe': 0})
     lang = users.find({'chat_id': update.message.chat_id}, {'lang': 1})[0]['lang']
     update.message.reply_text(_['start'][lang].format(update.message.from_user.first_name))
     settings(bot, update)
@@ -116,12 +119,55 @@ def menu(bot, update):
     elif len(parsed_text) > 1:
         update.message.reply_text(lib.get_menu(parsed_text[1], user['lang'], user['vegetarian']), parse_mode="Markdown")
 
-print("{} MAIN THREAD".format(strftime("%m.%d.%Y %a %H:%M:%S", gmtime())))
+def inlinequery(bot, update):
+    results = [InlineQueryResultArticle(
+                id=uuid4(),
+                title="Bugünün menüsü",
+                input_message_content=InputTextMessageContent(
+                    lib.get_menu("today", "tr", 0),
+                    parse_mode="Markdown")
+                ),
+                InlineQueryResultArticle(
+                id=uuid4(),
+                title="Yarının menüsü",
+                input_message_content=InputTextMessageContent(
+                    lib.get_menu("tomorrow", "tr", 0),
+                    parse_mode="Markdown")
+                )]
 
+    update.inline_query.answer(results, parse_mode="Markdown")
+
+def devchat(bot, update):
+    if str(update.message.chat_id) == environ.get('IZTECHBOT_DEVCHAT'):
+        cmd = update.message.text.split(" ")
+        if len(cmd) > 1 and cmd[1] == "log":
+            try:
+                f = open("log", "r")
+                logs = f.read()
+                update.message.reply_text(logs)
+            except e:
+                update.message.reply_text("ERROR: " + str(e))
+        elif len(cmd) > 1 and cmd[1] == "users":
+            update.message.reply_text("{} ({}, {})".format(users.count(),users.count_documents({'subscribe': 1}), users.count_documents({'subscribe': 0})))
+
+    else:
+        logger.info("UNAUTHORIZED ACCESS: {}".format(update.message.chat_id))
+
+def error(bot, update, error):
+    logger.warning('Update "%s" caused error "%s"', update, error)
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+logger.info("BOT PROCESS STARTED")
+
+logger.info("CONNECTING DATABASE")
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client['iztechbot']
 users = db["users"]
+logger.info("CONNECTION ESTABLISHED")
 
+logger.info("STARTING BOT")
 updater = Updater(token=environ.get('IZTECHBOT_KEY'))
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
@@ -131,7 +177,11 @@ updater.dispatcher.add_handler(CommandHandler('subscribe', subscribe))
 updater.dispatcher.add_handler(CommandHandler('unsubscribe', unsubscribe))
 updater.dispatcher.add_handler(CommandHandler('settings', settings))
 updater.dispatcher.add_handler(CommandHandler('lang', lang))
+updater.dispatcher.add_handler(CommandHandler('dev', devchat))
 updater.dispatcher.add_handler(CallbackQueryHandler(button))
+updater.dispatcher.add_handler(InlineQueryHandler(inlinequery))
+updater.dispatcher.add_error_handler(error)
 
 updater.start_polling()
+logger.info("BOT STARTED")
 updater.idle()

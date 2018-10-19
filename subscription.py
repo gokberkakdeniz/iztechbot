@@ -4,26 +4,31 @@
 import schedule
 import telegram
 import pymongo
-from time import sleep, gmtime, strftime
+from time import sleep
 from os import environ
+from strings import hour
 import lib
+import logging
 
-hour = "11:00"
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-print("{} MESSAGE SENDER THREAD".format(strftime("%m.%d.%Y %a %H:%M:%S", gmtime())))
+logger.info("SUBSCRIPTION PROCESS STARTED")
+
+logger.info("CONNECTING DATABASE")
+client = pymongo.MongoClient("mongodb://localhost:27017/")
+db = client['iztechbot']
+users = db["users"]
+logger.info("CONNECTION ESTABLISHED")
 
 def job():
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client['iztechbot']
-    users = db["users"]
-
     bot = telegram.Bot(token=environ.get('IZTECHBOT_KEY'))
     i=0
     for user in users.find({'subscribe': 1}):
         i +=1;
         menu = lib.get_menu("today", user['lang'], user['vegetarian'])
         bot.sendMessage(chat_id=user['chat_id'], text=menu, parse_mode="Markdown")
-    print("{} message has been sended to subscribed users.".format(i))
+    logger.info("{} message has been sended to subscribed users.".format(i))
 
 schedule.every().monday.at(hour).do(job)
 schedule.every().tuesday.at(hour).do(job)

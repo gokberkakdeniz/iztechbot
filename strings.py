@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+hour = "00:05"
+
 _ = {
     'help': {
         'en':'''
         /help - open help menu
         /menu - show food menu of today
         /menu <yesterday|today|tomorrow|day.month.year> - show food menu of spesific day
-        /menu subscribe - receive food menu daily at 8:45 a.m.
-        /menu unsubscribe - unsubscribe from message
-        /menu vegetarian <false|true> - set default menu type, default is false''',
+        /subscribe - receive food menu daily at {hour}
+        /unsubscribe - unsubscribe from message service
+        /vegetarian <false|true> - set menu type, default is false''',
         'tr': '''
         /help - yardım menüsünü aç
         /menu - günün menüsünü göster
-        /menu <yesterday|today|tomorrow|13.09.2018> - belirtilen güne ait yemek menüsünü göster
-        /menu subscribe - hergün sabah 8:45'de yemek menüsünü mesaj olarak al
-        /menu unsubscribe - mesaj almayı bırak
-        /menu vegenetarian <false|true> - yemek tipini değiştir, varsayılan false'''
+        /menu <dün|dun|bugün|bugun|yarın|yarin|13.09.2018> - belirtilen güne ait yemek menüsünü göster
+        /subscribe - hergün {hour}'de yemek menüsünü mesaj olarak al
+        /unsubscribe - mesaj almayı bırak
+        /vegetarian <false|true> - yemek tipini değiştir, varsayılan false'''.format(hour=hour)
     },
     'start': {
         'en':'''
@@ -57,8 +59,8 @@ _ = {
             'tr': 'Vejetaryan mısın?'
         },
         'subscription': {
-            'en': 'Do you want to subscribe to receive daily food menu message at 11:00 a.m.?',
-            'tr': 'Günlük olarak saat 11:00\'da yemek menüsünü almak ister misin?'
+            'en': 'Do you want to subscribe to receive daily food menu message at {}?'.format(hour),
+            'tr': 'Günlük olarak saat {}\'da yemek menüsünü almak ister misin?'.format(hour)
         }
     },
     'lang': {
@@ -70,8 +72,8 @@ _ = {
         'tr': "Geçersiz format!\n Sadece `/lang en` ve `/lang tr` geçerli."
     },
     'subscribe': {
-        'en': 'You will receive daily food menu everyday at 11:00 a.m.',
-        'tr': 'Günlük yemek menüsünü düzenli olarak hergün sabah 11:00\'da alacaksın.'
+        'en': 'You will receive daily food menu everyday at ' + hour,
+        'tr': 'Günlük yemek menüsünü düzenli olarak hergün {}\'de alacaksın.'.format(hour)
     },
     'unsubscribe': {
         'en': 'You won\'t receive daily food menu message.',
