@@ -1,5 +1,5 @@
 <center>
-![bot link](https://img.shields.io/badge/style-iztechbot-blue.svg?longCache=true&style=for-the-badge&label=Telegram&logo=telegram&link=https://t.me/iztechbot)
+<img src="https://img.shields.io/badge/style-iztechbot-blue.svg?longCache=true&style=for-the-badge&label=Telegram&logo=telegram&link=https://t.me/iztechbot">
 </center>
 
 <center>
