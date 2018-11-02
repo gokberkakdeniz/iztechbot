@@ -122,7 +122,7 @@ def menu(bot, update):
             menu = menu_storage.find_one()
             update.message.reply_text(lib.generate_menu_text(menu[str(user['vegetarian'])], user['lang']), parse_mode="Markdown")
     elif len(parsed_text) > 1:
-        update.message.reply_text(lib.generate_menu_text(lib.get_menu(parsed_text[1]), user['lang'], user['vegetarian']), parse_mode="Markdown")
+        update.message.reply_text(lib.generate_menu_text(lib.get_menu(parsed_text[1], user['vegetarian']), user['lang']), parse_mode="Markdown")
 
 def inlinequery(bot, update):
     if menu_storage.estimated_document_count() == 0:
