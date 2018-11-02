@@ -115,23 +115,47 @@ def menu(bot, update):
     user = users.find({'chat_id': update.message.chat_id}, {'lang': 1, 'vegetarian': 1})[0]
     parsed_text = update.message.text.split(" ")
     if len(parsed_text) == 1 or (len(parsed_text) > 1 and parsed_text[1] == "today"):
-            update.message.reply_text(lib.get_menu("today", user['lang'], user['vegetarian']), parse_mode="Markdown")
+            if menu_storage.estimated_document_count() == 0:
+                menu = {"0": lib.get_menu("today", 0),
+                        "1": lib.get_menu("today", 1)}
+                menu_storage.insert_one(menu)
+            menu = menu_storage.find_one()
+            update.message.reply_text(lib.generate_menu_text(menu[str(user['vegetarian'])], user['lang']), parse_mode="Markdown")
     elif len(parsed_text) > 1:
-        update.message.reply_text(lib.get_menu(parsed_text[1], user['lang'], user['vegetarian']), parse_mode="Markdown")
+        update.message.reply_text(lib.generate_menu_text(lib.get_menu(parsed_text[1]), user['lang'], user['vegetarian']), parse_mode="Markdown")
 
 def inlinequery(bot, update):
+    if menu_storage.estimated_document_count() == 0:
+        menu = {"0": lib.get_menu("today", 0),
+                "1": lib.get_menu("today", 1)}
+        menu_storage.insert_one(menu)
+    menu = menu_storage.find_one()
     results = [InlineQueryResultArticle(
                 id=uuid4(),
                 title="Bugünün menüsü",
                 input_message_content=InputTextMessageContent(
-                    lib.get_menu("today", "tr", 0),
+                    lib.generate_menu_text(menu["0"], user['lang']),
+                    parse_mode="Markdown")
+                ),
+                InlineQueryResultArticle(
+                id=uuid4(),
+                title="Bugünün menüsü (Vejetaryan)",
+                input_message_content=InputTextMessageContent(
+                    lib.generate_menu_text(menu["1"], user['lang']),
                     parse_mode="Markdown")
                 ),
                 InlineQueryResultArticle(
                 id=uuid4(),
                 title="Yarının menüsü",
                 input_message_content=InputTextMessageContent(
-                    lib.get_menu("tomorrow", "tr", 0),
+                    lib.generate_menu_text(lib.get_menu("tomorrow", 0), "tr"),
+                    parse_mode="Markdown")
+                ),
+                InlineQueryResultArticle(
+                id=uuid4(),
+                title="Yarının menüsü (Vejetaryan)",
+                input_message_content=InputTextMessageContent(
+                    lib.generate_menu_text(lib.get_menu("tomorrow", 1), "tr"),
                     parse_mode="Markdown")
                 )]
 
@@ -144,12 +168,13 @@ def devchat(bot, update):
             try:
                 f = open("log", "r")
                 logs = f.read()
-                update.message.reply_text(logs)
-            except e:
+                update.message.reply_text(logs[-4096:])
+            except e as Exception:
                 update.message.reply_text("ERROR: " + str(e))
         elif len(cmd) > 1 and cmd[1] == "users":
-            update.message.reply_text("{} ({}, {})".format(users.count(),users.count_documents({'subscribe': 1}), users.count_documents({'subscribe': 0})))
-
+            update.message.reply_text("{} ({}, {})".format(
+                users.count(),users.count_documents({'subscribe': 1}),
+                users.count_documents({'subscribe': 0})))
     else:
         logger.info("UNAUTHORIZED ACCESS: {}".format(update.message.chat_id))
 
@@ -165,6 +190,7 @@ logger.info("CONNECTING DATABASE")
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client['iztechbot']
 users = db["users"]
+menu_storage = db["menu"]
 logger.info("CONNECTION ESTABLISHED")
 
 logger.info("STARTING BOT")

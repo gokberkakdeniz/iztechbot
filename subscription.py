@@ -19,16 +19,23 @@ logger.info("CONNECTING DATABASE")
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client['iztechbot']
 users = db["users"]
+menu_storage = db["menu"]
 logger.info("CONNECTION ESTABLISHED")
 
 def job():
     bot = telegram.Bot(token=environ.get('IZTECHBOT_KEY'))
-    i=0
+    menu = {"0": lib.get_menu("today", 0),
+            "1": lib.get_menu("today", 1)}
+    if menu_storage.estimated_document_count() > 0:
+        menu_storage.update_one({}, {"$set": menu})
+    else:
+        menu_storage.insert_one(menu)
+    logger.info("Menu has been updated.")
+    sent_message_count = 0
     for user in users.find({'subscribe': 1}):
-        i +=1;
-        menu = lib.get_menu("today", user['lang'], user['vegetarian'])
-        bot.sendMessage(chat_id=user['chat_id'], text=menu, parse_mode="Markdown")
-    logger.info("{} message has been sended to subscribed users.".format(i))
+        sent_message_count +=1;
+        bot.sendMessage(chat_id=user['chat_id'], text=lib.generate_menu_text(menu[str(user['vegetarian'])], user['lang']), parse_mode="Markdown")
+    logger.info("{} message has been sent to subscribed users.".format(sent_message_count))
 
 schedule.every().monday.at(hour).do(job)
 schedule.every().tuesday.at(hour).do(job)
@@ -39,3 +46,5 @@ schedule.every().friday.at(hour).do(job)
 while True:
     schedule.run_pending()
     sleep(1)
+
+job()

@@ -12,16 +12,7 @@ import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def get_menu(date, lang, vegetarian):
-    err = ""
-    if not lang in ["tr", "en"]:
-        err += "lang variable cannot be {}".format(lang)
-    if not vegetarian in [0, 1]:
-        err +="vegetarian variable cannot be {}".format(vegetarian)
-    if not err == "":
-        logger.warning(err)
-        return err
-
+def get_menu(date, vegetarian):
     if date in ["today", "bugün", "bugun"]:
         date = datetime.datetime.strftime(datetime.date.today(), "%m.%d.%Y")
     elif date in ["yesterday", "dun", "dün"]:
@@ -33,10 +24,10 @@ def get_menu(date, lang, vegetarian):
             date = datetime.datetime.strftime(datetime.datetime.strptime(date, "%d.%m.%Y"), "%m.%d.%Y")
         except ValueError as e:
             logger.warning(str(e))
-            return _['error_date_format'][lang]
+            return "error_date_format"
 
     if datetime.datetime.strftime(datetime.datetime.strptime(date, "%m.%d.%Y") ,"%w") in ["6", "0"]:
-        return _['weekend'][lang]
+        return "weekend"
 
     try:
         req = get(_['fetch_url'].format(date, "V" if vegetarian else "O"),
@@ -46,11 +37,23 @@ def get_menu(date, lang, vegetarian):
         )
     except requests.exceptions.RequestException as e:
         logger.warning(str(e))
-        return str(e)
+        return "error_request_exception"
 
     regex = r'<td>(.*?)<\/td>'
     menu = re.findall(regex, req.text)
-    menu_str = "```\n{} {}```\n".format(_['menu_header'][lang],  datetime.datetime.strftime(datetime.datetime.strptime(date, "%m.%d.%Y"), "%d.%m.%Y"))
+    menu_str = "\n```\n{} " + datetime.datetime.strftime(datetime.datetime.strptime(date, "%m.%d.%Y"), "%d.%m.%Y") + "```\n"
     for i in range(0, len(menu), 2):
         menu_str += "{} `{}`\n".format(fix_text(menu[i]),menu[i+1])
     return menu_str
+
+def generate_menu_text(menu, lang):
+    if menu == "error_date_format":
+        return _['error_date_format'][lang]
+    elif menu == "weekend":
+        return _['weekend'][lang]
+    elif menu == "error_request_exception":
+        return _['error_request_exception'][lang]
+    elif not lang in ["tr", "en"]:
+        lang = "en"
+
+    return menu.format(_['menu_header'][lang])

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-hour = "00:05"
+hour = "00:00"
 
 _ = {
     'help': {
@@ -66,6 +66,10 @@ _ = {
     'lang': {
         'en': 'You have selected English.',
         'tr': 'Türkçeyi seçtin.'
+    },
+    'error_request_exception': {
+        'en': 'Something happened while retrieving menu...',
+        'tr': 'Menü alınırken bir hata oluştu...'
     },
     'error_lang': {
         'en': "Oops, wrong format!\n Only `/lang en` and `/lang tr` are valid.",
