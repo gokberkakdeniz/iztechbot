@@ -134,14 +134,14 @@ def inlinequery(bot, update):
                 id=uuid4(),
                 title="Bugünün menüsü",
                 input_message_content=InputTextMessageContent(
-                    lib.generate_menu_text(menu["0"], user['lang']),
+                    lib.generate_menu_text(menu["0"], "tr"),
                     parse_mode="Markdown")
                 ),
                 InlineQueryResultArticle(
                 id=uuid4(),
                 title="Bugünün menüsü (Vejetaryan)",
                 input_message_content=InputTextMessageContent(
-                    lib.generate_menu_text(menu["1"], user['lang']),
+                    lib.generate_menu_text(menu["1"], "tr"),
                     parse_mode="Markdown")
                 ),
                 InlineQueryResultArticle(
