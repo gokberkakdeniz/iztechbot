@@ -3,11 +3,14 @@
 
 from multiprocessing import Process
 
+
 def process_main():
     import bot
 
+
 def process_schedule():
     import subscription
+
 
 if __name__ == '__main__':
     m = Process(target=process_main)

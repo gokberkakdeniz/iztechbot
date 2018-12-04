@@ -3,3 +3,6 @@ iztechbot.json
 log
 __pycache__/
 test.py
+.idea/
+abc.py
+
