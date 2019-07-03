@@ -1,4 +1,4 @@
-/node_modules
-/old_codebase
+/node_modules/
 package-lock.json
 .env
+iztechbot.log
