@@ -1,0 +1,26 @@
+{
+  "name": "iztechbot",
+  "version": "2.0.0",
+  "description": "IZTECH Telegram bot",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tncga/iztechbot.git"
+  },
+  "author": "Gökberk AKDENİZ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tncga/iztechbot/issues"
+  },
+  "homepage": "https://github.com/tncga/iztechbot#readme",
+  "devDependencies": {
+    "eslint": "^6.0.1"
+  },
+  "dependencies": {
+    "mariadb": "^2.0.5",
+    "telegraf": "^3.30.1"
+  }
+}
