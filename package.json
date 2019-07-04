@@ -4,7 +4,7 @@
   "description": "IZTECH Telegram bot",
   "main": "main.js",
   "scripts": {
-    "start": "node ."
+    "start": "node . -tls-min-v1.0"
   },
   "repository": {
     "type": "git",
