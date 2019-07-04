@@ -4,7 +4,7 @@
   "description": "IZTECH Telegram bot",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ."
   },
   "repository": {
     "type": "git",
@@ -16,9 +16,7 @@
     "url": "https://github.com/tncga/iztechbot/issues"
   },
   "homepage": "https://github.com/tncga/iztechbot#readme",
-  "devDependencies": {
-    "eslint": "^6.0.1"
-  },
+  "devDependencies": {},
   "dependencies": {
     "cron": "^1.7.1",
     "dotenv": "^8.0.0",
