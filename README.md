@@ -8,42 +8,11 @@
 </center>
 
 > A Telegram bot that helps you to see food menu of IZTECH central cafeteria
+    yardim - yardım menüsünü göster.
+    menu - günün menüsünü göster.
+    menu - <dün|bugün|yarın|13.09.2018> O güne ait menüyü göster.
+    ayarlar - ayarlar menüsünü aç.
 
-    /help - open help menu
-    /menu - show food menu of today
-    /menu yesterday/today/tomorrow - show food menu of yesterday/today/tomorrow
-    /menu 13.12.2018 - show food menu of 13.12.2018
-    /settings - open setting menu
-    /subscribe - receive daily food menu message
-    /unsubscribe - don't receive daily food menu message
-    /lang en/tr - change language
-
-## Installation
-Python 3:
-
-    pip install python-telegram-bot
-    pip install schedule
-    pip install requests
-    pip install ftfy
-    pip install pymongo
-
-Ubuntu:
-
-    sudo apt install expect
-install mongo db using [this tutorial](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
-
-Arch Linux:
-
-    sudo pacman -S expect
-    sudo pacman -S mongodb
-    systemctl enable mongodb
-
-Start
-
-    chmod +x start.sh
-    ./start.sh
-
-> Add bot token as environment variable "IZTECHBOT_KEY".
 
 ### Credits
 Logo: https://github.com/iztech/logo
