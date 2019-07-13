@@ -6,11 +6,11 @@
     iztechbot
   </h1>
 </center>
+IYTE Yemekhane botu
 
-> A Telegram bot that helps you to see food menu of IZTECH central cafeteria
     yardim - yardım menüsünü göster.
     menu - günün menüsünü göster.
-    menu - <dün|bugün|yarın|13.09.2018> O güne ait menüyü göster.
+    menu <dün|bugün|yarın|13.09.2018> - O güne ait menüyü göster.
     ayarlar - ayarlar menüsünü aç.
 
 
