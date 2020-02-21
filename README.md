@@ -20,7 +20,7 @@ IYTE Yemekhane botu
 # Kurulum
 - Depoyu klonlayın.
     
-    git clone https://github.com/tncga/iztechbot.git
+      git clone https://github.com/tncga/iztechbot.git
 
 - `.env` dosyasını kendinize göre düzenleyin.
 
