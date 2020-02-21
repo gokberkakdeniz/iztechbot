@@ -1,17 +1,14 @@
-[![bot link]()]()
-
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/iztech/logo/master/export/iztech_logo%400%2C1x.png">
 </p>
-
-# iztechbot
 
 <p align="right">
   <a href="https://t.me/iztechbot">
   <img src="https://img.shields.io/badge/style-iztechbot-blue.svg?longCache=true&style=for-the-badge&label=Telegram&logo=telegram&link=https://t.me/iztechbot">
   </a>
 </p>
+
+# iztechbot
 
 IYTE Yemekhane botu
 
