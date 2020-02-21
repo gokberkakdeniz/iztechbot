@@ -1,30 +1,35 @@
 {
   "name": "iztechbot",
-  "version": "2.0.0",
-  "description": "IZTECH Telegram bot",
-  "main": "main.js",
-  "scripts": {
-    "start": "node ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tncga/iztechbot.git"
-  },
-  "author": "Gökberk AKDENİZ",
+  "version": "2.1.0",
+  "description": "iztech cafeteria menu bot",
+  "repository": "https://github.com/tncga/iztechbot",
+  "author": "Gökberk AKDENİZ <gokberkakdeniz@hotmail.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tncga/iztechbot/issues"
+  "main": "./dist/main.js",
+  "scripts": {
+    "start": "npm run serve",
+    "build": "npm run build-ts",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "serve": "node --tls-min-v1.0 .",
+    "test": "jest"
   },
-  "homepage": "https://github.com/tncga/iztechbot#readme",
-  "devDependencies": {},
   "dependencies": {
-    "cron": "^1.7.1",
-    "dotenv": "^8.0.0",
-    "mariadb": "^2.0.5",
+    "cron": "^1.8.2",
+    "dotenv": "^8.2.0",
+    "mariadb": "^2.2.0",
     "moment": "^2.24.0",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4",
-    "telegraf": "^3.30.1",
+    "telegraf": "^3.36.0",
     "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/jest": "^25.1.2",
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.7.5"
   }
 }

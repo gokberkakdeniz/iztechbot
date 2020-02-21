@@ -2,3 +2,7 @@
 package-lock.json
 .env
 iztechbot.log
+iztechbot.sql
+js-version/
+dist
+yarn.lock
