@@ -1,9 +1,16 @@
-[![bot link](https://img.shields.io/badge/style-iztechbot-blue.svg?longCache=true&style=for-the-badge&label=Telegram&logo=telegram&link=https://t.me/iztechbot)](https://t.me/iztechbot)
+[![bot link]()]()
+
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/iztech/logo/master/export/iztech_logo%400%2C1x.png">
-  <br>
-  <h2>iztechbot</h2>
+</p>
+
+# iztechbot
+
+<p align="right">
+  <a href="https://t.me/iztechbot">
+  <img src="https://img.shields.io/badge/style-iztechbot-blue.svg?longCache=true&style=for-the-badge&label=Telegram&logo=telegram&link=https://t.me/iztechbot">
+  </a>
 </p>
 
 IYTE Yemekhane botu
