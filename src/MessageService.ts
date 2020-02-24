@@ -23,7 +23,7 @@ export default class MessageService {
 
     private init() {
         this.job = new CronJob("0 0 * * 1-5", async () => {
-            try {
+            // try {
                 const menu = (await getTodaysMenu()).unwrap();
                 this.logger.info("the menu fetched.");
 
@@ -40,9 +40,9 @@ export default class MessageService {
                 ids.forEach((user) => {
                     this.bot.sendMessage(user.chat_id, menu[user.menu_type.toLowerCase()], { parse_mode: "Markdown" });
                 });
-            } catch(e) {
-                this.logger.error(e);
-            }
+            // } catch(e) {
+            //     this.logger.error(e);
+            // }
         })
     }
 
