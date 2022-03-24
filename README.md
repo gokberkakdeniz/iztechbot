@@ -1,3 +1,3 @@
 # iztechbot
 
-Minimal implementation of iztechbot using cloudflare workers.
+basic and dirty implementation of iztechbot using cloudflare workers.
